@@ -6,11 +6,21 @@ return {
 	},
 	config = function()
 		-- import mason
-		local mason = require("mason")
+		local mason_status, mason = pcall(require, "mason")
+		if not mason_status then
+			return
+		end
 
 		-- import mason-lspconfig
-		local mason_lspconfig = require("mason-lspconfig")
-		local mason_tool_inataller = require("mason-tool-installer")
+		local mason_lspconfig_status, mason_lspconfig = pcall(require, "mason-lspconfig")
+		if not mason_lspconfig_status then
+			return
+		end
+
+		local mason_tool_installer_status, mason_tool_installer = pcall(require, "mason-tool-installer")
+		if not mason_tool_installer_status then
+			return
+		end
 
 		-- enable mason and configure icons
 		mason.setup({
@@ -40,7 +50,7 @@ return {
 			},
 		})
 
-		mason_tool_inataller.setup({
+		mason_tool_installer.setup({
 			ensure_installed = {
 				"prettier",
 				"stylua",
@@ -52,3 +62,4 @@ return {
 		})
 	end,
 }
+
